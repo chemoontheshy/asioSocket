@@ -16,10 +16,17 @@ namespace hs
 		/// </summary>
 		enum class NetType
 		{
-			// TCP
+			/// <summary>TCP</summary>
 			TCP,
-			// UDP
+			/// <summary>UDP</summary>
 			UDP
+		};
+
+		class AsyncUDPScoket
+		{
+		public:
+			virtual ~AsyncUDPScoket() = default;
+			//virtual 
 		};
 
 		/// <summary>
@@ -39,6 +46,12 @@ namespace hs
 			/// <param name="packet">数据包</param>
 			/// <returns>成功返回true，错误返回false</returns>
 			virtual bool Read(Packet& __VSNC_IN_OUT packet) noexcept = 0;
+
+			/// <summary>
+			/// 关闭接收器
+			/// </summary>
+			/// <returns>成功返回true，错误返回false</returns>
+			virtual bool Close() noexcept = 0;
 		};
 		class Sender
 		{
@@ -54,6 +67,12 @@ namespace hs
 			/// <param name="packet">数据包</param>
 			/// <returns>成功返回true，错误返回false</returns>
 			virtual bool Send(const Packet& __VSNC_IN packet) noexcept = 0;
+
+			/// <summary>
+			/// 关闭发送器
+			/// </summary>
+			/// <returns>成功返回true，错误返回false</returns>
+			virtual bool Close() noexcept = 0;
 		};
 
 		/// <summary>
@@ -88,6 +107,8 @@ namespace hs
 			/// 发送最大长度
 			size_t      MaxLength;
 		};
+
+		std::shared_ptr<Sender> CreateSender(const SenderParam& __VSNC_IN param);
 	}
 }
 
